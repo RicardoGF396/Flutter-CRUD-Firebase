@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
-import 'package:flutter_firebase/views/user/list-user.dart';
+import 'package:flutter_firebase/views/menu.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
         // Aquí realizas la acción de éxito
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => UserScreen()),
+          MaterialPageRoute(builder: (context) => MenuScreen()),
         );
       } else {
         showDialog(

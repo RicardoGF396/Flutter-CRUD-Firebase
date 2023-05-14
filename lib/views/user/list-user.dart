@@ -44,7 +44,7 @@ class UserScreen extends StatelessWidget {
                                         borderRadius: BorderRadius.circular(16),
                                       ),
                                       content: SizedBox(
-                                        height: 112,
+                                        height: 140,
                                         child: Center(
                                           child: Column(
                                             mainAxisAlignment:
@@ -54,6 +54,7 @@ class UserScreen extends StatelessWidget {
                                                   'assets/error-icon.svg'),
                                               const SizedBox(height: 16),
                                               Text(
+                                                textAlign: TextAlign.center,
                                                 "Do you want to delete ${snapshot.data?[index]["name"]}?",
                                                 style: TextStyle(
                                                     color: Colors.white),
@@ -172,7 +173,7 @@ class UserScreen extends StatelessWidget {
                                   color: Colors.white, size: 40),
                               trailing: GestureDetector(
                                 onTap: () {
-                                  Navigator.pushNamed(context, '/update-user',
+                                  Navigator.pushNamed(context, '/updateUser',
                                       arguments: {
                                         "uid": snapshot.data?[index]["uid"],
                                         "name": snapshot.data?[index]["name"],
@@ -254,7 +255,7 @@ class UserScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.pushNamed(context, '/add-user');
+          Navigator.pushNamed(context, '/addUser');
         },
         child: const Icon(
           Icons.add,

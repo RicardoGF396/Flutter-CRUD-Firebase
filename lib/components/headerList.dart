@@ -5,8 +5,9 @@ import 'package:flutter_svg/flutter_svg.dart';
 class HeaderList extends StatelessWidget {
   final Function onBack;
   final String? title;
+  final String? subtitle;
 
-  const HeaderList({Key? key, required this.onBack, this.title});
+  const HeaderList({Key? key, required this.onBack, this.title,this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +40,7 @@ class HeaderList extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "List of",
+                subtitle ?? 'List of',
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
               Text(

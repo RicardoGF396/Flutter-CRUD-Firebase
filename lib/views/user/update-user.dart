@@ -188,7 +188,7 @@ class UpdateUserScreen extends StatelessWidget {
                               )
                           .then((_) {
                         Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/list-user');
+                        Navigator.popAndPushNamed(context, '/listUser');
                       });
                     },
                     child: const Text('Update'),

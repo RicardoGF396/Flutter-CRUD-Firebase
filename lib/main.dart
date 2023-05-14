@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/views/menu.dart';
 import 'package:flutter_firebase/views/product/add-product.dart';
 import 'package:flutter_firebase/views/product/list-product.dart';
 import 'package:flutter_firebase/views/product/update-product.dart';
+import 'package:flutter_firebase/views/purchase/editPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
-import 'package:flutter_firebase/views/user/list-user.dart';
+import 'package:flutter_firebase/views/sale/editSaleScreen.dart';
+import 'package:flutter_firebase/views/sale/formSaleScreen.dart';
+import 'package:flutter_firebase/views/sale/listSaleScreen.dart';
 import 'package:flutter_firebase/views/user/add-user.dart';
+import 'package:flutter_firebase/views/user/list-user.dart';
 import 'package:flutter_firebase/views/user/update-user.dart';
 import 'firebase_options.dart';
 
@@ -29,15 +34,24 @@ class MyApp extends StatelessWidget {
       title: 'Boline',
       initialRoute: '/',
       routes: {
-        '/': (context) => ProductScreen(),
+        '/': (context) => Login(),
+        '/menu': (context) => MenuScreen(),
+        /* Purchase */
+        '/listPurchase':(context) => ListPurchaseScreen(),
         '/addPurchase': (context) => FormPurchaseScreen(),
-        '/add-user': (context) => UserFormScreen(),
-        '/update-user': (context) => UpdateUserScreen(),
-        '/list-user': (context) => UserScreen(),
-        '/list-product': (context) => ProductScreen(),
-        '/add-product': (context) => ProductFormScreen(),
-        '/update-product': (context) => UpdateProductScreen(),
-
+        '/editPurchase': (context) => EditPurchaseScreen(),
+        /* Sales */
+        '/listSales' : (context) => ListSaleScreen(),
+        '/addSale': (context) => FormSaleScreen(),
+        '/editSale': (context) => EditSaleScreen(),
+        /* User */
+        '/listUser':(context) => UserScreen(),
+        '/addUser':(context) => UserFormScreen(),
+        '/updateUser':(context) => UpdateUserScreen(),
+        /* Product */
+        '/listProduct': (context) => ProductScreen(),
+        '/addProduct': (context) => ProductFormScreen(),
+        '/updateProduct': (context) => UpdateProductScreen(),
       },
     );
   }

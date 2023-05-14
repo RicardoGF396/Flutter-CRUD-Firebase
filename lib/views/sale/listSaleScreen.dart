@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/headerList.dart';
-import 'package:flutter_firebase/views/services/product-service/product_service.dart';
+import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class ProductScreen extends StatelessWidget {
+class ListSaleScreen extends StatefulWidget {
+  @override
+  _ListSaleScreenState createState() => _ListSaleScreenState();
+}
 
-  
+class _ListSaleScreenState extends State<ListSaleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,13 +19,13 @@ class ProductScreen extends StatelessWidget {
         child: Column(
           children: [
             HeaderList(
-              title: "Products",
+              title: "Sales",
               onBack: () {
                 Navigator.pop(context);
               },
             ),
             FutureBuilder(
-              future: getProducts(),
+              future: getSales(),
               builder: ((context, snapshot) {
                 if (snapshot.hasData) {
                   return Expanded(
@@ -30,10 +33,13 @@ class ProductScreen extends StatelessWidget {
                       itemCount: snapshot.data?.length,
                       itemBuilder: (context, index) {
                         return Container(
-                          margin: const EdgeInsets.only(bottom: 12),
+                          margin: EdgeInsets.only(bottom: 12),
                           child: Dismissible(
+                            key: Key(snapshot.data?[index]['uid']),
+                            direction: DismissDirection.startToEnd,
                             onDismissed: (direction) async {
-                              await deleteProduct(snapshot.data?[index]["uid"]);
+                              await deleteSale(snapshot.data?[index]['uid']);
+                              snapshot.data?.removeAt(index);
                             },
                             confirmDismiss: (direction) async {
                               bool result = false;
@@ -81,10 +87,10 @@ class ProductScreen extends StatelessWidget {
                                                         Colors.black),
                                                 minimumSize:
                                                     MaterialStateProperty.all(
-                                                        Size(200, 50)),
+                                                        Size(140, 50)),
                                                 textStyle: MaterialStateProperty
                                                     .all<TextStyle>(
-                                                  const TextStyle(fontSize: 16),
+                                                  TextStyle(fontSize: 16),
                                                 ),
                                                 shape:
                                                     MaterialStateProperty.all<
@@ -99,7 +105,8 @@ class ProductScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               onPressed: () {
-                                                return Navigator.pop(context, true);
+                                                return Navigator.pop(
+                                                    context, true);
                                               },
                                               child: const Text(
                                                 'Confirm',
@@ -143,7 +150,8 @@ class ProductScreen extends StatelessWidget {
                                                 ),
                                               ),
                                               onPressed: () {
-                                                return Navigator.pop(context, false);
+                                                return Navigator.pop(
+                                                    context, false);
                                               },
                                               child: const Text(
                                                 'Cancel',
@@ -157,94 +165,95 @@ class ProductScreen extends StatelessWidget {
                                       ],
                                     );
                                   });
-                                  return result;
+                              return result;
                             },
-                            key: Key(snapshot.data?[index]["uid"]),
                             background: Container(
                               alignment: Alignment.centerLeft,
                               padding: EdgeInsets.only(left: 24),
                               color: Colors.red,
-                              child: const Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
+                              child: const Icon(Icons.delete, color: Colors.white,),
                             ),
-                            direction: DismissDirection.startToEnd,
                             child: ListTile(
-                              leading: const Icon(Icons.account_circle_sharp,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                              ),
+                              leading: Icon(Icons.shopping_bag_outlined,
                                   color: Colors.white, size: 40),
-                              trailing: GestureDetector(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/updateProduct',
-                                      arguments: {
-                                        "uid": snapshot.data?[index]["uid"],
-                                        "name": snapshot.data?[index]["name"],
-                                        "description": snapshot.data?[index]
-                                            ["description"],
-                                        "price": snapshot.data?[index]["price"],
-                                        "cost": snapshot.data?[index]
-                                            ["cost"],
-                                        "units": snapshot.data?[index]["units"],
-                                        "utility": snapshot.data?[index]
-                                            ["utility"],
-                                      });
-                                },
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: Color.fromARGB(150, 230, 230, 230),
-                                ),
+                              trailing: Icon(
+                                Icons.edit,
+                                color: Color.fromARGB(150, 230, 230, 230),
                               ),
                               title: Padding(
-                                  padding: const EdgeInsets.only(top: 12),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        snapshot.data?[index]['name'],
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ],
-                                  )),
-                              subtitle: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Text(
+                                  snapshot.data?[index]['name'],
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                              ),
+                              subtitle: Row(
                                 children: [
-                                  Text(
-                                    "Description: " + snapshot.data?[index]['description'],
-                                    style: TextStyle(
-                                        color:
-                                            Color.fromARGB(150, 230, 230, 230)),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          "Pieces: " +
+                                              snapshot.data?[index]['pieces'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  150, 230, 230, 230)),
+                                        ),
+                                        Text(
+                                          "Quantity: " +
+                                              snapshot.data?[index]['quantity'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  150, 230, 230, 230)),
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  Text(
-                                    "Price: " +
-                                        snapshot.data?[index]['price'],
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(150, 230, 230, 230)),
-                                  ),
-                                  Text(
-                                    "Cost: " +
-                                        snapshot.data?[index]['cost'],
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(150, 230, 230, 230)),
-                                  ),
-                                  Text(
-                                    "Units: " +
-                                        snapshot.data?[index]['units'],
-                                    style: const TextStyle(
-                                        color:
-                                            Color.fromARGB(150, 230, 230, 230)),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(bottom: 12),
-                                    child: Text(
-                                      "Utility: " + snapshot.data?[index]['utility'],
-                                      style: TextStyle(
-                                          color: Color.fromARGB(
-                                              150, 230, 230, 230)),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          "Subtotal: " +
+                                              snapshot.data?[index]['subtotal'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  150, 230, 230, 230)),
+                                        ),
+                                        Text(
+                                          "Total: " +
+                                              snapshot.data?[index]['total'],
+                                          style: TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 255, 255, 255)),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
+                              onTap: (() async {
+                                await Navigator.pushNamed(context, '/editSale',
+                                    arguments: {
+                                      'uid': snapshot.data?[index]['uid'],
+                                      "name": snapshot.data?[index]['name'],
+                                      "quantity": snapshot.data?[index]
+                                          ['quantity'],
+                                      "pieces": snapshot.data?[index]['pieces'],
+                                      "idc": snapshot.data?[index]['idc'],
+                                      "idv": snapshot.data?[index]['idv'],
+                                      "subtotal": snapshot.data?[index]
+                                          ['subtotal'],
+                                      "total": snapshot.data?[index]['total'],
+                                    });
+                                setState(() {});
+                              }),
                             ),
                           ),
                         );
@@ -263,8 +272,9 @@ class ProductScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.pushNamed(context, '/addProduct');
+        onPressed: () async {
+          await Navigator.pushNamed(context, '/addSale');
+          setState(() {});
         },
         child: const Icon(
           Icons.add,

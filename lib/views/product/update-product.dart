@@ -186,7 +186,7 @@ class UpdateProductScreen extends StatelessWidget {
                               )
                           .then((_) {
                         Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/list-product');
+                        Navigator.popAndPushNamed(context, '/listProduct');
                       });
                     },
                     child: const Text('Update'),

@@ -170,7 +170,7 @@ class UserFormScreen extends StatelessWidget {
                         passwordController.text
                       ).then((_) {
                         Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/');
+                        Navigator.popAndPushNamed(context, '/listUser');
                       });
                     },
                     child: const Text('Add'),

@@ -168,7 +168,7 @@ class ProductFormScreen extends StatelessWidget {
                         utilityController.text,
                       ).then((_) {
                         Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/list-product');
+                        Navigator.popAndPushNamed(context, '/listProduct');
                       });
                     },
                     child: const Text('Add'),

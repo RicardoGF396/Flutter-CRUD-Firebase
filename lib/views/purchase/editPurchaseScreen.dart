@@ -3,14 +3,24 @@ import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 import 'package:flutter_firebase/components/headerList.dart';
 
-// ignore: must_be_immutable
-class FormPurchaseScreen extends StatelessWidget {
-  TextEditingController nameController = TextEditingController(text: "");
-  TextEditingController piecesController = TextEditingController(text: "");
-  TextEditingController idaController = TextEditingController(text: "");
+class EditPurchaseScreen extends StatelessWidget {
+  const EditPurchaseScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    //Recuperamos los argumentos que mandamos
+    final Map arguments = ModalRoute.of(context)!.settings.arguments as Map;
+
+    //Declaramos los controladores de los inputs
+    TextEditingController nameController = TextEditingController(text: "");
+    TextEditingController piecesController = TextEditingController(text: "");
+    TextEditingController idaController = TextEditingController(text: "");
+
+    //Hacemos un set de los argumentos a los inputs
+    nameController.text = arguments['name'];
+    piecesController.text = arguments['pieces'];
+    idaController.text = arguments['ida'];
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
@@ -20,7 +30,7 @@ class FormPurchaseScreen extends StatelessWidget {
           children: [
             HeaderList(
               title: "Purchase",
-              subtitle: "Register a new",
+              subtitle: "Edit Register",
               onBack: () {
                 Navigator.pop(context);
               },
@@ -92,13 +102,18 @@ class FormPurchaseScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await addPurchase(nameController.text,
-                              piecesController.text, idaController.text)
+                      await updatePurchase(
+                              arguments['uid'],
+                              nameController.text,
+                              piecesController.text,
+                              idaController.text)
                           .then((_) {
+
+                            
                         Navigator.pop(context);
                       });
                     },
-                    child: const Text('Add'),
+                    child: const Text('Edit Record'),
                   )
                 ],
               )),
