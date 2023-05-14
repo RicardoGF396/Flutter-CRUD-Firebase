@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "564805172408",
+    "project_id": "appboline-ios-flu",
+    "storage_bucket": "appboline-ios-flu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564805172408:android:ff832537bec6eccef0084d",
+        "android_client_info": {
+          "package_name": "com.example.flutter_firebase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "564805172408-s2ao9is3hbel0learid9rkad3g17jl9f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA0lDd-DbAt9skGN7v8EPU_TXZ0qYSyCaU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "564805172408-s2ao9is3hbel0learid9rkad3g17jl9f.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "564805172408-1p5m4ae6mkns57p8dmv1arhaqcnmlfs3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.joseph.BolineExam"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

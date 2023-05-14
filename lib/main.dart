@@ -1,7 +1,17 @@
+import 'firebase_options.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/views/login.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+//Screen
+import 'package:flutter_firebase/views/login.dart';
+import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
+import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const MyApp());
 }
 
@@ -11,9 +21,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Boline',
-      home: const Login(),
+      initialRoute: '/',
+      routes: {
+        '/': (context) => ListPurchaseScreen(),
+        '/addPurchase': (context) => FormPurchaseScreen()
+      },
     );
   }
 }
-
-
