@@ -11,7 +11,21 @@ class UserScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          children: [],
+          children: [
+            Text("User",
+                style: TextStyle(
+                  fontSize: 36,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.white,
+                )),
+            const Text(
+              "Complete the following form to add a new",
+              style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w300),
+            ),
+          ],
         ),
       ),
     );
