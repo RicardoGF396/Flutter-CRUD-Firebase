@@ -15,7 +15,18 @@ Future<List> getUsers() async {
 
   //Hacemos un ForeEach para agregarlos a la lista
   queryPurchase.docs.forEach((usersfb) {
-    users.add(usersfb.data());
+    final Map<String, dynamic> data = usersfb.data() as Map<String, dynamic>;
+    final user = {
+      "uid": usersfb.id,
+      "name": data['name'],
+      "lastname": data['lastname'],
+      "email": data['email'],
+      "age": data['age'],
+      "gender": data['gender'],
+      "password": data['password'],
+      "id": data['id'],
+    };
+    users.add(user);
   });
   //Accion para esperar a que se llene la lista
   Future.delayed(const Duration(seconds: 2));
@@ -36,4 +47,23 @@ Future<void> addUser(String age, String email, String gender, String id,
     "lastname": lastname,
     "password": password
   });
+}
+
+// Actualizar user
+Future<void> updateUser(String uid, String name, String lastname, String email,
+    String age, String gender, String password, String id) async {
+  await db.collection('user').doc(uid).set({
+    "name": name,
+    "lastname": lastname,
+    "email": email,
+    "age": age,
+    "gender": gender,
+    "password": password,
+    "id": id
+  });
+}
+
+// Borrar user
+Future<void> deleteUser(String uid) async {
+  await db.collection("user").doc(uid).delete();
 }

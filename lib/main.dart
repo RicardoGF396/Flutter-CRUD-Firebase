@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/views/product/add-product.dart';
+import 'package:flutter_firebase/views/product/list-product.dart';
+import 'package:flutter_firebase/views/product/update-product.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
-import 'package:flutter_firebase/views/user/user.dart';
-import 'package:flutter_firebase/views/user/userForm.dart';
+import 'package:flutter_firebase/views/user/list-user.dart';
+import 'package:flutter_firebase/views/user/add-user.dart';
+import 'package:flutter_firebase/views/user/update-user.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,9 +29,15 @@ class MyApp extends StatelessWidget {
       title: 'Boline',
       initialRoute: '/',
       routes: {
-        '/': (context) => UserScreen(),
+        '/': (context) => ProductScreen(),
         '/addPurchase': (context) => FormPurchaseScreen(),
-        '/user-form': (context) => UserFormScreen()
+        '/add-user': (context) => UserFormScreen(),
+        '/update-user': (context) => UpdateUserScreen(),
+        '/list-user': (context) => UserScreen(),
+        '/list-product': (context) => ProductScreen(),
+        '/add-product': (context) => ProductFormScreen(),
+        '/update-product': (context) => UpdateProductScreen(),
+
       },
     );
   }
