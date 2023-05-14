@@ -1,11 +1,10 @@
-import 'firebase_options.dart';
 import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-//Screen
 import 'package:flutter_firebase/views/login.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
+import 'firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ListPurchaseScreen(),
-        '/addPurchase': (context) => FormPurchaseScreen()
+        '/add': (context) => FormPurchaseScreen()
       },
     );
   }
