@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
 import 'package:flutter_firebase/views/user/user.dart';
+import 'package:flutter_firebase/views/user/userForm.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => UserScreen(),
-        '/addPurchase': (context) => FormPurchaseScreen()
+        '/addPurchase': (context) => FormPurchaseScreen(),
+        '/user-form': (context) => UserFormScreen()
       },
     );
   }

@@ -42,10 +42,19 @@ class UserScreen extends StatelessWidget {
                             ),
                             title: Padding(
                               padding: const EdgeInsets.only(top: 12),
-                              child: Text(
+                              child: Row(
+                                children: [
+                                  Text(
                                 snapshot.data?[index]['name'],
                                 style: TextStyle(color: Colors.white),
                               ),
+                              SizedBox(width: 4,),
+                                  Text(
+                                snapshot.data?[index]['lastname'],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                                ],
+                              )
                             ),
                             subtitle: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,7 +98,7 @@ class UserScreen extends StatelessWidget {
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
         onPressed: () {
-          Navigator.pushNamed(context, '/addPurchase');
+          Navigator.pushNamed(context, '/user-form');
         },
         child: const Icon(
           Icons.add,
