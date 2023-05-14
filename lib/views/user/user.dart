@@ -31,8 +31,8 @@ class UserScreen extends StatelessWidget {
                           child: ListTile(
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              side:
-                                  BorderSide(color: Color(0xFF3D3C46), width: 2),
+                              /* side:
+                                  BorderSide(color: Color(0xFF3D3C46), width: 2), */
                             ),
                             leading: Icon(Icons.account_circle_sharp,
                                 color: Colors.white, size: 40),
@@ -70,6 +70,7 @@ class UserScreen extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            
                           ),
                         );
                       },
