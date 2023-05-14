@@ -6,13 +6,16 @@ class DefaultInput extends StatefulWidget {
   final String? Function(String?)? validator;
   final void Function(String)? onChanged;
   final bool obscureText;
+  final TextEditingController? controller;
+
 
   DefaultInput({
     required this.hintText,
     required this.labelText,
     this.validator,
     this.onChanged,
-    required this.obscureText,
+    required this.obscureText, 
+    this.controller,
   });
 
   @override
@@ -28,6 +31,7 @@ class _DefaultInputState extends State<DefaultInput> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       obscureText: widget.obscureText,
       style: TextStyle(color: Colors.white),
       cursorColor: Colors.white,

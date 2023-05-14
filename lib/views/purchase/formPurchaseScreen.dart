@@ -1,8 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FormPurchaseScreen extends StatelessWidget {
+  TextEditingController nameController = TextEditingController(text: "");
+  TextEditingController piecesController = TextEditingController(text: "");
+  TextEditingController idaController = TextEditingController(text: "");
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,10 +63,11 @@ class FormPurchaseScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: false,
+                    controller:nameController
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   DefaultInput(
                     hintText: "Pieces",
@@ -71,10 +78,11 @@ class FormPurchaseScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: false,
+                    controller:piecesController
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 15,
                   ),
                   DefaultInput(
                     hintText: "IDA",
@@ -85,7 +93,8 @@ class FormPurchaseScreen extends StatelessWidget {
                       }
                       return null;
                     },
-                    obscureText: true,
+                    obscureText: false,
+                    controller:idaController
                   ),
                   const SizedBox(
                     height: 40,
@@ -106,7 +115,9 @@ class FormPurchaseScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      print(nameController.text);
+                    },
                     child: const Text('Add'),
                   )
                 ],

@@ -25,7 +25,7 @@ class ListPurchaseScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/addPurchase');
+          Navigator.pushNamed(context,'/addPurchase');
         },
         child: const Icon(Icons.add),
       ),
