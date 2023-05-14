@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => ListPurchaseScreen(),
-        '/add': (context) => FormPurchaseScreen()
+        '/addPurchase': (context) => FormPurchaseScreen()
       },
     );
   }

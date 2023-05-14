@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_firebase/views/services/firebase_service.dart';
+import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 
 class ListPurchaseScreen extends StatelessWidget {
   @override
@@ -25,9 +25,10 @@ class ListPurchaseScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-        Navigator.pushNamed(context,'/addPurchase');
-      },
-      child: const Icon(Icons.add),),
+          Navigator.pushNamed(context, '/addPurchase');
+        },
+        child: const Icon(Icons.add),
+      ),
     );
   }
 }
