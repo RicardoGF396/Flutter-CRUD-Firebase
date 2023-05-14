@@ -5,6 +5,7 @@ import 'package:flutter_firebase/views/purchase/editPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
 import 'package:flutter_firebase/views/user/user.dart';
+import 'package:flutter_firebase/views/user/userForm.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -25,9 +26,15 @@ class MyApp extends StatelessWidget {
       title: 'Boline',
       initialRoute: '/',
       routes: {
+<<<<<<< HEAD
         '/': (context) => ListPurchaseScreen(),
         '/addPurchase': (context) => FormPurchaseScreen(),
         '/editPurchase': (context) => EditPurchaseScreen()
+=======
+        '/': (context) => UserScreen(),
+        '/addPurchase': (context) => FormPurchaseScreen(),
+        '/user-form': (context) => UserFormScreen()
+>>>>>>> 66d0249f4611e188ba7422406bad972bbfca7f5f
       },
     );
   }

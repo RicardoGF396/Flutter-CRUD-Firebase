@@ -22,3 +22,18 @@ Future<List> getUsers() async {
 
   return users;
 }
+
+//==>Añadir un Usuario
+Future<void> addUser(String age, String email, String gender, String id,
+    String name, String lastname, String password) async {
+  //Enviamos como si fuera un json
+  await db.collection('user').add({
+    "age": name,
+    "email": email,
+    "gender": gender,
+    "id": id,
+    "name": name,
+    "lastname": lastname,
+    "password": password
+  });
+}
