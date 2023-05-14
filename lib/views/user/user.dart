@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/components/headerList.dart';
 
 class UserScreen extends StatelessWidget {
   const UserScreen({super.key});
@@ -11,7 +12,14 @@ class UserScreen extends StatelessWidget {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
-          children: [],
+          children: [
+            HeaderList(
+              title: "Users",
+              onBack: () {
+                Navigator.pop(context);
+              },
+            )
+          ],
         ),
       ),
     );
