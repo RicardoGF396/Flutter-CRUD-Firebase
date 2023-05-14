@@ -10,7 +10,7 @@ class ListPurchaseScreen extends StatefulWidget {
 class _ListPurchaseScreenState extends State<ListPurchaseScreen> {
   @override
   Widget build(BuildContext context) {
-   return Scaffold(
+    return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
       body: Padding(
@@ -18,7 +18,7 @@ class _ListPurchaseScreenState extends State<ListPurchaseScreen> {
         child: Column(
           children: [
             HeaderList(
-              title: "Users",
+              title: "Purchase",
               onBack: () {
                 Navigator.pop(context);
               },
@@ -33,39 +33,92 @@ class _ListPurchaseScreenState extends State<ListPurchaseScreen> {
                       itemBuilder: (context, index) {
                         return Container(
                           margin: EdgeInsets.only(bottom: 12),
-                          child: ListTile(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              side:
-                                  BorderSide(color: Color(0xFF3D3C46), width: 2),
+                          child: Dismissible(
+                            key: Key(snapshot.data?[index]['uid']),
+                            direction: DismissDirection.startToEnd,
+                            onDismissed: (direction) async {
+                              await deletePurchase(
+                                  snapshot.data?[index]['uid']);
+                              snapshot.data?.removeAt(index);
+                            },
+                            confirmDismiss: (direction) async {
+                              bool result = false;
+                              result = await showDialog(
+                                  context: context,
+                                  builder: (context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                          "Are you sure you want to delete ${snapshot.data?[index]['name']}?"),
+                                      actions: [
+                                        TextButton(
+                                            onPressed: () {
+                                              return Navigator.pop(
+                                                  context, false);
+                                            },
+                                            child: const Text('Undo')),
+                                        TextButton(
+                                            onPressed: () {
+                                              return Navigator.pop(
+                                                  context, true);
+                                            },
+                                            child: const Text('Yes'))
+                                      ],
+                                    );
+                                  });
+                              return result;
+                            },
+                            background: Container(
+                              color: Colors.red,
+                              child: const Icon(Icons.delete),
                             ),
-                            leading: Icon(Icons.account_circle_sharp,
-                                color: Colors.white, size: 40),
-                            trailing: Icon(
-                              Icons.edit,
-                              color: Color.fromARGB(150, 230, 230, 230),
-                            ),
-                            title: Padding(
-                              padding: const EdgeInsets.only(top: 12),
-                              child: Text(
-                                snapshot.data?[index]['name'],
-                                style: TextStyle(color: Colors.white),
+                            child: ListTile(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                /* side:
+                                    BorderSide(color: Color(0xFF3D3C46), width: 2), */
                               ),
-                            ),
-                            subtitle: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Pieces: " + snapshot.data?[index]['pieces'],
-                                  style: TextStyle(
-                                      color: Color.fromARGB(150, 230, 230, 230)),
+                              leading: Icon(Icons.assignment,
+                                  color: Colors.white, size: 40),
+                              trailing: Icon(
+                                Icons.edit,
+                                color: Color.fromARGB(150, 230, 230, 230),
+                              ),
+                              title: Padding(
+                                padding: const EdgeInsets.only(top: 12),
+                                child: Text(
+                                  snapshot.data?[index]['name'],
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                                Text(
-                                  "IDA: " + snapshot.data?[index]['ida'],
-                                  style: TextStyle(
-                                      color: Color.fromARGB(150, 230, 230, 230)),
-                                ),
-                              ],
+                              ),
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Pieces: " +
+                                        snapshot.data?[index]['pieces'],
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(150, 230, 230, 230)),
+                                  ),
+                                  Text(
+                                    "IDA: " + snapshot.data?[index]['ida'],
+                                    style: TextStyle(
+                                        color:
+                                            Color.fromARGB(150, 230, 230, 230)),
+                                  ),
+                                ],
+                              ),
+                              onTap: (() async {
+                                await Navigator.pushNamed(
+                                    context, '/editPurchase',
+                                    arguments: {
+                                      'uid': snapshot.data?[index]['uid'],
+                                      "name": snapshot.data?[index]['name'],
+                                      "pieces": snapshot.data?[index]['pieces'],
+                                      "ida": snapshot.data?[index]['ida'],
+                                    });
+                                setState(() {});
+                              }),
                             ),
                           ),
                         );
@@ -84,8 +137,9 @@ class _ListPurchaseScreenState extends State<ListPurchaseScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () {
-          Navigator.pushNamed(context, '/addPurchase');
+        onPressed: () async {
+          await Navigator.pushNamed(context, '/addPurchase');
+          setState(() {});
         },
         child: const Icon(
           Icons.add,

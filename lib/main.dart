@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/views/purchase/editPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
 import 'package:flutter_firebase/views/user/user.dart';
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
       title: 'Boline',
       initialRoute: '/',
       routes: {
-        '/': (context) => UserScreen(),
-        '/addPurchase': (context) => FormPurchaseScreen()
+        '/': (context) => ListPurchaseScreen(),
+        '/addPurchase': (context) => FormPurchaseScreen(),
+        '/editPurchase': (context) => EditPurchaseScreen()
       },
     );
   }
