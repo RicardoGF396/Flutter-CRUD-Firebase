@@ -22,3 +22,11 @@ Future<List> getPurchase() async {
 
   return purchase;
 }
+
+//==>Añadir una compra
+Future<void> addPurchase(String name, String pieces, String ida) async {
+  //Enviamos como si fuera un json
+  await db
+      .collection('purchase')
+      .add({"name": name, "pieces": pieces, "ida": ida});
+}
