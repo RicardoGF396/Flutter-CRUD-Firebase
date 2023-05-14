@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
+import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class FormPurchaseScreen extends StatelessWidget {
@@ -55,47 +56,44 @@ class FormPurchaseScreen extends StatelessWidget {
                   child: Column(
                 children: [
                   DefaultInput(
-                    hintText: "Name",
-                    labelText: "Name",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter a correct password';
-                      }
-                      return null;
-                    },
-                    obscureText: false,
-                    controller:nameController
-                  ),
+                      hintText: "Name",
+                      labelText: "Name",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct password';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: nameController),
                   const SizedBox(
                     height: 15,
                   ),
                   DefaultInput(
-                    hintText: "Pieces",
-                    labelText: "Pieces",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter a correct Pieces';
-                      }
-                      return null;
-                    },
-                    obscureText: false,
-                    controller:piecesController
-                  ),
+                      hintText: "Pieces",
+                      labelText: "Pieces",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct Pieces';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: piecesController),
                   const SizedBox(
                     height: 15,
                   ),
                   DefaultInput(
-                    hintText: "IDA",
-                    labelText: "IDA",
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Enter a correct IDA';
-                      }
-                      return null;
-                    },
-                    obscureText: false,
-                    controller:idaController
-                  ),
+                      hintText: "IDA",
+                      labelText: "IDA",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct IDA';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: idaController),
                   const SizedBox(
                     height: 40,
                   ),
@@ -115,8 +113,12 @@ class FormPurchaseScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    onPressed: () {
-                      print(nameController.text);
+                    onPressed: () async {
+                      await addPurchase(nameController.text,
+                              piecesController.text, idaController.text)
+                          .then((_) {
+                        Navigator.pop(context);
+                      });
                     },
                     child: const Text('Add'),
                   )

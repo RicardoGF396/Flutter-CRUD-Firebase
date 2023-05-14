@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 
-class ListPurchaseScreen extends StatelessWidget {
+class ListPurchaseScreen extends StatefulWidget {
+  @override
+  _ListPurchaseScreenState createState() => _ListPurchaseScreenState();
+}
+
+class _ListPurchaseScreenState extends State<ListPurchaseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,8 +29,9 @@ class ListPurchaseScreen extends StatelessWidget {
         }),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.pushNamed(context,'/addPurchase');
+        onPressed: () async {
+          await Navigator.pushNamed(context,'/addPurchase');
+          setState((){});
         },
         child: const Icon(Icons.add),
       ),
