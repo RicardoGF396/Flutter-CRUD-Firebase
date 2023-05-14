@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/views/login.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_firebase/views/menu.dart';
 import 'package:flutter_firebase/views/purchase/editPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/formPurchaseScreen.dart';
 import 'package:flutter_firebase/views/purchase/listPurchaseScreen.dart';
+import 'package:flutter_firebase/views/sale/editSaleScreen.dart';
+import 'package:flutter_firebase/views/sale/formSaleScreen.dart';
+import 'package:flutter_firebase/views/sale/listSaleScreen.dart';
 import 'package:flutter_firebase/views/user/user.dart';
 import 'package:flutter_firebase/views/user/userForm.dart';
 import 'firebase_options.dart';
@@ -26,15 +30,13 @@ class MyApp extends StatelessWidget {
       title: 'Boline',
       initialRoute: '/',
       routes: {
-<<<<<<< HEAD
-        '/': (context) => ListPurchaseScreen(),
+        '/': (context) => MenuScreen(),
+        '/listPurchase': (context) => ListSaleScreen(),
         '/addPurchase': (context) => FormPurchaseScreen(),
-        '/editPurchase': (context) => EditPurchaseScreen()
-=======
-        '/': (context) => UserScreen(),
-        '/addPurchase': (context) => FormPurchaseScreen(),
-        '/user-form': (context) => UserFormScreen()
->>>>>>> 66d0249f4611e188ba7422406bad972bbfca7f5f
+        '/editPurchase': (context) => EditPurchaseScreen(),
+        '/listSales' : (context) => ListPurchaseScreen(),
+        '/addSale': (context) => FormSaleScreen(),
+        '/editSale': (context) => EditSaleScreen()
       },
     );
   }

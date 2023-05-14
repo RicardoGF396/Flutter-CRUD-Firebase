@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
-import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 import 'package:flutter_firebase/components/headerList.dart';
+import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
 
 // ignore: must_be_immutable
-class FormPurchaseScreen extends StatelessWidget {
+class FormSaleScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController(text: "");
+  TextEditingController quantityController = TextEditingController(text: "");
   TextEditingController piecesController = TextEditingController(text: "");
-  TextEditingController idaController = TextEditingController(text: "");
+  TextEditingController idcController = TextEditingController(text: "");
+  TextEditingController idvController = TextEditingController(text: "");
+  TextEditingController subtotalController = TextEditingController(text: "");
+  TextEditingController totalController = TextEditingController(text: "");
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +23,14 @@ class FormPurchaseScreen extends StatelessWidget {
         child: Column(
           children: [
             HeaderList(
-              title: "Purchase",
+              title: "Sale",
               subtitle: "Register a new",
               onBack: () {
                 Navigator.pop(context);
               },
             ),
             const SizedBox(
-              height: 48,
+              height: 15,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22),
@@ -38,12 +42,26 @@ class FormPurchaseScreen extends StatelessWidget {
                       labelText: "Name",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a correct password';
+                          return 'Enter a correct Name';
                         }
                         return null;
                       },
                       obscureText: false,
                       controller: nameController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Quantity",
+                      labelText: "Quantity",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct Quantity';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: quantityController),
                   const SizedBox(
                     height: 15,
                   ),
@@ -62,18 +80,60 @@ class FormPurchaseScreen extends StatelessWidget {
                     height: 15,
                   ),
                   DefaultInput(
-                      hintText: "IDA",
-                      labelText: "IDA",
+                      hintText: "IDC",
+                      labelText: "IDC",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a correct IDA';
+                          return 'Enter a correct IDC';
                         }
                         return null;
                       },
                       obscureText: false,
-                      controller: idaController),
+                      controller: idcController),
                   const SizedBox(
-                    height: 40,
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "IDV",
+                      labelText: "IDV",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct IDV';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: idvController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Subtotal",
+                      labelText: "subtotal",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct subtotal';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: subtotalController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Total",
+                      labelText: "Total",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct Total';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: totalController),
+                  const SizedBox(
+                    height: 20,
                   ),
                   TextButton(
                     style: ButtonStyle(
@@ -92,8 +152,14 @@ class FormPurchaseScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await addPurchase(nameController.text,
-                              piecesController.text, idaController.text)
+                      await addSale(
+                              nameController.text,
+                              quantityController.text,
+                              piecesController.text,
+                              idcController.text,
+                              idvController.text,
+                              subtotalController.text,
+                              totalController.text)
                           .then((_) {
                         Navigator.pop(context);
                       });

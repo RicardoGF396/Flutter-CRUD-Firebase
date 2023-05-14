@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
-import 'package:flutter_firebase/views/services/purchase-service/firebase_service.dart';
 import 'package:flutter_firebase/components/headerList.dart';
+import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
 
-class EditPurchaseScreen extends StatelessWidget {
-  const EditPurchaseScreen({Key? key}) : super(key: key);
-
+// ignore: must_be_immutable
+class EditSaleScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //Recuperamos los argumentos que mandamos
@@ -13,14 +12,21 @@ class EditPurchaseScreen extends StatelessWidget {
 
     //Declaramos los controladores de los inputs
     TextEditingController nameController = TextEditingController(text: "");
+    TextEditingController quantityController = TextEditingController(text: "");
     TextEditingController piecesController = TextEditingController(text: "");
-    TextEditingController idaController = TextEditingController(text: "");
+    TextEditingController idcController = TextEditingController(text: "");
+    TextEditingController idvController = TextEditingController(text: "");
+    TextEditingController subtotalController = TextEditingController(text: "");
+    TextEditingController totalController = TextEditingController(text: "");
 
     //Hacemos un set de los argumentos a los inputs
     nameController.text = arguments['name'];
+    quantityController.text = arguments['quantity'];
     piecesController.text = arguments['pieces'];
-    idaController.text = arguments['ida'];
-
+    idcController.text = arguments['idc'];
+    idvController.text = arguments['idv'];
+    subtotalController.text = arguments['subtotal'];
+    totalController.text = arguments['total'];
     return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
@@ -29,14 +35,14 @@ class EditPurchaseScreen extends StatelessWidget {
         child: Column(
           children: [
             HeaderList(
-              title: "Purchase",
-              subtitle: "Edit Register",
+              title: "Sale",
+              subtitle: "Edit a ",
               onBack: () {
                 Navigator.pop(context);
               },
             ),
             const SizedBox(
-              height: 48,
+              height: 15,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 22),
@@ -48,12 +54,26 @@ class EditPurchaseScreen extends StatelessWidget {
                       labelText: "Name",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a correct password';
+                          return 'Enter a correct Name';
                         }
                         return null;
                       },
                       obscureText: false,
                       controller: nameController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Quantity",
+                      labelText: "Quantity",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct Quantity';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: quantityController),
                   const SizedBox(
                     height: 15,
                   ),
@@ -72,18 +92,60 @@ class EditPurchaseScreen extends StatelessWidget {
                     height: 15,
                   ),
                   DefaultInput(
-                      hintText: "IDA",
-                      labelText: "IDA",
+                      hintText: "IDC",
+                      labelText: "IDC",
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Enter a correct IDA';
+                          return 'Enter a correct IDC';
                         }
                         return null;
                       },
                       obscureText: false,
-                      controller: idaController),
+                      controller: idcController),
                   const SizedBox(
-                    height: 40,
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "IDV",
+                      labelText: "IDV",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct IDV';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: idvController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Subtotal",
+                      labelText: "subtotal",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct subtotal';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: subtotalController),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  DefaultInput(
+                      hintText: "Total",
+                      labelText: "Total",
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Enter a correct Total';
+                        }
+                        return null;
+                      },
+                      obscureText: false,
+                      controller: totalController),
+                  const SizedBox(
+                    height: 20,
                   ),
                   TextButton(
                     style: ButtonStyle(
@@ -102,14 +164,16 @@ class EditPurchaseScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await updatePurchase(
+                      await updateSale(
                               arguments['uid'],
                               nameController.text,
+                              quantityController.text,
                               piecesController.text,
-                              idaController.text)
+                              idcController.text,
+                              idvController.text,
+                              subtotalController.text,
+                              totalController.text)
                           .then((_) {
-
-                            
                         Navigator.pop(context);
                       });
                     },
