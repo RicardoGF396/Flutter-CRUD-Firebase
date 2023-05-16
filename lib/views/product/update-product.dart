@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
+import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/product-service/product_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class UpdateProductScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController(text: "");
-  TextEditingController descriptionController= TextEditingController(text: "");
+  TextEditingController descriptionController = TextEditingController(text: "");
   TextEditingController costController = TextEditingController(text: "");
   TextEditingController priceController = TextEditingController(text: "");
   TextEditingController unitsController = TextEditingController(text: "");
@@ -26,36 +27,15 @@ class UpdateProductScreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Container(
-                margin: EdgeInsets.only(top: 42),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/logoFlutter.svg'),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Text("Product",
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        )),
-                    const Text(
-                      "Update Product",
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-              ),
+            HeaderList(
+              title: "Product",
+              subtitle: "Update a",
+              onBack: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 20,
@@ -64,16 +44,18 @@ class UpdateProductScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 22),
               child: Form(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      "ID: " + uid,
-                      style: TextStyle(
-                          fontSize: 16,
-                          color: Color.fromARGB(255, 180, 180, 180),
-                          fontWeight: FontWeight.w300),
-                    ),
-                  SizedBox(height: 16,),
+                    "ID: " + uid,
+                    style: TextStyle(
+                        fontSize: 16,
+                        color: Color.fromARGB(255, 180, 180, 180),
+                        fontWeight: FontWeight.w300),
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
                   DefaultInput(
                       hintText: "Name",
                       labelText: "Name",
@@ -182,8 +164,7 @@ class UpdateProductScreen extends StatelessWidget {
                               priceController.text,
                               unitsController.text,
                               costController.text,
-                              utilityController.text
-                              )
+                              utilityController.text)
                           .then((_) {
                         Navigator.pop(context);
                         Navigator.popAndPushNamed(context, '/listProduct');

@@ -37,7 +37,7 @@ class FormPurchaseScreen extends StatelessWidget {
                       hintText: "Name",
                       labelText: "Name",
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (nameController.text == "") {
                           return 'Enter a correct password';
                         }
                         return null;

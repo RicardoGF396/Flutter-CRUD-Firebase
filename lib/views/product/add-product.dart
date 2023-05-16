@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/product-service/product_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -18,36 +19,15 @@ class ProductFormScreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Container(
-                margin: EdgeInsets.only(top: 42),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/logoFlutter.svg'),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Text("Product",
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        )),
-                    const Text(
-                      "Register a new product",
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    )
-                  ],
-                ),
-              ),
+            HeaderList(
+              title: "Product",
+              subtitle: "Register a new",
+              onBack: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 48,

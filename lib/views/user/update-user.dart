@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
+import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/user-service/user_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -27,36 +28,15 @@ class UpdateUserScreen extends StatelessWidget {
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
       body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 12),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Container(
-                margin: EdgeInsets.only(top: 42),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/logoFlutter.svg'),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    const Text("User",
-                        style: TextStyle(
-                          fontSize: 36,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        )),
-                    const Text(
-                      "Update User",
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    ),
-                  ],
-                ),
-              ),
+            HeaderList(
+              title: "User",
+              subtitle: "Update",
+              onBack: () {
+                Navigator.pop(context);
+              },
             ),
             const SizedBox(
               height: 20,
