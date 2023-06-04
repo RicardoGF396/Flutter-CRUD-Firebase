@@ -7,7 +7,7 @@ import '../../components/defaultInput.dart';
 
 class ProductFormScreen extends StatelessWidget {
   TextEditingController nameController = TextEditingController(text: "");
-  TextEditingController descriptionController= TextEditingController(text: "");
+  TextEditingController descriptionController = TextEditingController(text: "");
   TextEditingController costController = TextEditingController(text: "");
   TextEditingController priceController = TextEditingController(text: "");
   TextEditingController unitsController = TextEditingController(text: "");
@@ -62,7 +62,7 @@ class ProductFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: descriptionController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -76,7 +76,7 @@ class ProductFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: costController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -90,7 +90,7 @@ class ProductFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: priceController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -104,7 +104,7 @@ class ProductFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: unitsController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -118,7 +118,6 @@ class ProductFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: utilityController),
-
                   const SizedBox(
                     height: 40,
                   ),
@@ -139,17 +138,99 @@ class ProductFormScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await addProduct(
+                       if ([
                         nameController.text,
                         descriptionController.text,
                         priceController.text,
                         unitsController.text,
                         costController.text,
                         utilityController.text,
-                      ).then((_) {
-                        Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/listProduct');
-                      });
+                      ].contains("")) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Color(0xFF1E1C24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                content: SizedBox(
+                                  height: 112,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/error-icon.svg'),
+                                        const SizedBox(height: 16),
+                                        const Text(
+                                          'One or more fields are empty',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                actions: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  Size(140, 50)),
+                                          textStyle: MaterialStateProperty.all<
+                                              TextStyle>(
+                                            TextStyle(fontSize: 16),
+                                          ),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(99),
+                                              side: BorderSide(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          'Okay',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            });
+                        //print("Estoy aqui");
+                      } else {
+                        await addProduct(
+                          nameController.text,
+                          descriptionController.text,
+                          priceController.text,
+                          unitsController.text,
+                          costController.text,
+                          utilityController.text,
+                        ).then((_) {
+                          Navigator.pop(context);
+                          Navigator.popAndPushNamed(context, '/listProduct');
+                        });
+                      }
                     },
                     child: const Text('Add'),
                   )
