@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_firebase/views/services/product-service/product_service.dart';
 
 //Aqui va toda la funcionalidad de firestore
 FirebaseFirestore db = FirebaseFirestore.instance;
@@ -50,8 +51,9 @@ Future<void> updateSale(String uid, String name, String quantity, String pieces,
 }
 
 //==>Añadir una Sale
-Future<void> addSale(String name, String quantity, String pieces, String idc,
+Future<void> addSale(String uidProduct, String name, String finalQuantity, String quantity, String pieces, String idc,
     String idv, String subtotal, String total) async {
+
   //Enviamos como si fuera un json
   await db.collection('sale').add({
     "name": name,
@@ -62,6 +64,8 @@ Future<void> addSale(String name, String quantity, String pieces, String idc,
     "subtotal": subtotal,
     "total": total
   });
+
+  await updateUnitsProduct(uidProduct, finalQuantity);
 }
 
 // ===> Eliminar

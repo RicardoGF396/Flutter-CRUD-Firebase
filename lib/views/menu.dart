@@ -1,8 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_firebase/views/login.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class MenuScreen extends StatelessWidget {
-  const MenuScreen({Key? key}) : super(key: key);
+class MenuScreen extends StatefulWidget {
+  final String? userName;
+  final String? profilePicture;
+
+  MenuScreen({this.userName, this.profilePicture});
+
+  @override
+  State<MenuScreen> createState() => _MenuScreenState();
+}
+
+class _MenuScreenState extends State<MenuScreen> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +32,19 @@ class MenuScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SvgPicture.asset('assets/logoFlutter.svg'),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SvgPicture.asset('assets/logoFlutter.svg'),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: Image.network(
+                            '${widget.profilePicture}',
+                            width: 40,
+                          ),
+                        )
+                      ],
+                    ),
                     SizedBox(
                       height: 30,
                     ),
@@ -30,13 +54,14 @@ class MenuScreen extends StatelessWidget {
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
                         )),
-                    const Text(
-                      "Pick up where you left off",
-                      style: TextStyle(
-                          fontSize: 20,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    ),
+                    if (widget.userName != null)
+                      Text(
+                        '${widget.userName}',
+                        style: const TextStyle(
+                            fontSize: 20,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w400),
+                      ),
                     SizedBox(height: 40),
                     _buildListTile(
                       context,
@@ -62,6 +87,20 @@ class MenuScreen extends StatelessWidget {
                       "List Product",
                       "/listProduct",
                     ),
+                    TextButton(
+                        onPressed: () {
+                          _googleSignIn.signOut().then((value) => {
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Login()))
+                              });
+                        },
+                        style: ButtonStyle(
+                          foregroundColor:
+                              MaterialStateProperty.all<Color>(Colors.blue),
+                        ),
+                        child: Text('Log out'))
                   ],
                 ),
               ),

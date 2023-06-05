@@ -4,9 +4,10 @@ import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_firebase/views/menu.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  const Login({Key? key}) : super(key: key);
 
   @override
   State<Login> createState() => _LoginState();
@@ -16,6 +17,8 @@ class _LoginState extends State<Login> {
   final formKey = GlobalKey<FormState>();
   String name = "";
   String password = "";
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   void validateInputs() {
     if (formKey.currentState!.validate()) {
@@ -91,6 +94,29 @@ class _LoginState extends State<Login> {
     }
   }
 
+  Future<void> signInWithGoogle() async {
+    try {
+      await _googleSignIn.signOut();
+      final account = await _googleSignIn.signIn();
+      if (account != null) {
+        String userName = account.displayName!;
+        String profilePicture = account.photoUrl!;
+        print(userName);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MenuScreen(
+              userName: userName,
+              profilePicture: profilePicture,
+            ),
+          ),
+        );
+      }
+    } catch (error) {
+      print('Error signing in with Google: $error');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -102,51 +128,58 @@ class _LoginState extends State<Login> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(22),
-              child: Container(
-                margin: EdgeInsets.only(top: 42),
-                width: double.infinity,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SvgPicture.asset('assets/logoFlutter.svg'),
-                    SizedBox(
-                      height: 96,
-                    ),
-                    const Text("Let's sign you in",
+      body: WillPopScope(
+        onWillPop: () async {
+          final currentUser = await _googleSignIn.currentUser;
+          return currentUser != null;
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(22),
+                child: Container(
+                  margin: EdgeInsets.only(top: 42),
+                  width: double.infinity,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SvgPicture.asset('assets/logoFlutter.svg'),
+                      SizedBox(
+                        height: 96,
+                      ),
+                      const Text(
+                        "Let's sign you in",
                         style: TextStyle(
                           fontSize: 36,
                           fontWeight: FontWeight.w600,
                           color: Colors.white,
-                        )),
-                    const Text(
-                      "Welcome back",
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    ),
-                    const Text(
-                      "You have been missed!",
-                      style: TextStyle(
-                          fontSize: 24,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w300),
-                    )
-                  ],
+                        ),
+                      ),
+                      const Text(
+                        "Welcome back",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300),
+                      ),
+                      const Text(
+                        "You have been missed!",
+                        style: TextStyle(
+                            fontSize: 24,
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(
-              height: 48,
-            ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 22),
-              child: Form(
+              SizedBox(
+                height: 48,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 22),
+                child: Form(
                   key: formKey,
                   child: Column(
                     children: [
@@ -234,11 +267,23 @@ class _LoginState extends State<Login> {
                         ),
                         onPressed: validateInputs,
                         child: const Text('Log in'),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      InkWell(
+                        onTap: signInWithGoogle,
+                        child: Container(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Image.asset('assets/google.png'),
+                        ),
                       )
                     ],
-                  )),
-            )
-          ],
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

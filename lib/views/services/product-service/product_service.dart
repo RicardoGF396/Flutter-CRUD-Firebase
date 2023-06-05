@@ -33,7 +33,7 @@ Future<List> getProducts() async {
   return products;
 }
 
-//==>Añadir un Usuario
+//==>Añadir un Producto
 Future<void> addProduct(String name, String description, String price, String units, String cost,
     String utility) async {
   //Enviamos como si fuera un json
@@ -57,6 +57,13 @@ Future<void> updateProduct(String uid, String name, String description, String p
     "units": units,
     "cost": cost,
     "utility": utility,
+  });
+}
+
+Future<void> updateUnitsProduct(String uid, String units) async {
+
+  await db.collection('product').doc(uid).update({
+    "units": units,
   });
 }
 

@@ -1,20 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_firebase/components/headerList.dart';
+import 'package:flutter_firebase/views/services/product-service/product_service.dart';
 import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
 
 // ignore: must_be_immutable
-class FormSaleScreen extends StatelessWidget {
-  TextEditingController nameController = TextEditingController(text: "");
+class FormSaleScreen extends StatefulWidget {
+  @override
+  State<FormSaleScreen> createState() => _FormSaleScreenState();
+}
+
+class _FormSaleScreenState extends State<FormSaleScreen> {
   TextEditingController quantityController = TextEditingController(text: "");
+
   TextEditingController piecesController = TextEditingController(text: "");
+
   TextEditingController idcController = TextEditingController(text: "");
+
   TextEditingController idvController = TextEditingController(text: "");
+
   TextEditingController subtotalController = TextEditingController(text: "");
+
   TextEditingController totalController = TextEditingController(text: "");
+
+  String uidProduct = "";
+  String productName = "Select a product to sell";
+  String quantityAvailable = "0";
+  int finalQuantity = 0;
 
   @override
   Widget build(BuildContext context) {
+    final OutlineInputBorder _border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: Color(0xFF3D3C46)),
+    );
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
@@ -37,17 +57,51 @@ class FormSaleScreen extends StatelessWidget {
               child: Form(
                   child: Column(
                 children: [
-                  DefaultInput(
-                      hintText: "Name",
-                      labelText: "Name",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter a correct Name';
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Color(0xFF1E1C24),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: Color(0xFF3D3C46)),
+                    ),
+                    child: FutureBuilder<List>(
+                      future: getProducts(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          List products = snapshot.data!;
+                          return DropdownButton<String>(
+                            hint: Text(
+                              productName,
+                              style: TextStyle(color: Colors.white38),
+                            ),
+                            dropdownColor: Colors.white,
+                            isExpanded: true,
+                            items: products
+                                .map<DropdownMenuItem<String>>((product) {
+                              return DropdownMenuItem<String>(
+                                value: product['uid'],
+                                child: Text(product['name']),
+                              );
+                            }).toList(),
+                            onChanged: (String? newValue) {
+                              setState(() {
+                                uidProduct = newValue!;
+                                Map<String, dynamic> selectedProduct =
+                                    products.firstWhere((product) =>
+                                        product['uid'] == newValue);
+                                productName = selectedProduct['name'];
+                                quantityAvailable = selectedProduct['units'];
+                              });
+                            },
+                          );
+                        } else if (snapshot.hasError) {
+                          print("Error");
                         }
-                        return null;
+                        return const CircularProgressIndicator(); // Devuelve un widget en caso de que aún se esté cargando el resultado
                       },
-                      obscureText: false,
-                      controller: nameController),
+                    ),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -61,7 +115,50 @@ class FormSaleScreen extends StatelessWidget {
                         return null;
                       },
                       obscureText: false,
+                      onChanged: (String? newValue) {
+                        if (newValue != null) {
+                          int enteredQuantity = int.tryParse(newValue) ?? 0;
+                          int availableQuantity = int.tryParse(quantityAvailable) ?? 0;
+                          if (enteredQuantity > availableQuantity) {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text('Invalid Quantity'),
+                                  content: Text(
+                                      'You cannot add a quantity greater than the available quantity.'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      child: Text('OK'),
+                                      onPressed: () {
+                                        quantityController.text = "";
+                                        Navigator.of(context).pop();
+                                      },
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
+                          }else{
+                            int enteredQuantity = int.tryParse(newValue) ?? 0;
+                            int availableQuantity = int.tryParse(quantityAvailable) ?? 0;
+
+                            finalQuantity = availableQuantity -enteredQuantity;
+                            print(finalQuantity);
+
+                          }
+                        }
+                      },
                       controller: quantityController),
+                  Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(top: 5),
+                    child: Text(
+                      "Quantity available: $quantityAvailable",
+                      style: TextStyle(color: Colors.white30),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
                   const SizedBox(
                     height: 15,
                   ),
@@ -153,7 +250,9 @@ class FormSaleScreen extends StatelessWidget {
                     ),
                     onPressed: () async {
                       await addSale(
-                              nameController.text,
+                              uidProduct,
+                              productName,
+                              finalQuantity.toString(),
                               quantityController.text,
                               piecesController.text,
                               idcController.text,

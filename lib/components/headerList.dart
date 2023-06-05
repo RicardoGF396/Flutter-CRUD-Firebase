@@ -30,9 +30,9 @@ class HeaderList extends StatelessWidget {
               onBack();
             },
           ),
-          actions: [
+          /* actions: [
             Image.asset('assets/bruno.png'),
-          ],
+          ], */
         ),
         Padding(
           padding: const EdgeInsets.only(left: 8, right: 8, top: 36),
