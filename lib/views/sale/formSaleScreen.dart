@@ -160,7 +160,7 @@ class _FormSaleScreenState extends State<FormSaleScreen> {
                       textAlign: TextAlign.left,
                     ),
                   ),
-                  const SizedBox(
+                  /* const SizedBox(
                     height: 15,
                   ),
                   DefaultInput(
@@ -173,7 +173,7 @@ class _FormSaleScreenState extends State<FormSaleScreen> {
                         return null;
                       },
                       obscureText: false,
-                      controller: piecesController),
+                      controller: piecesController), */
                   const SizedBox(
                     height: 15,
                   ),
