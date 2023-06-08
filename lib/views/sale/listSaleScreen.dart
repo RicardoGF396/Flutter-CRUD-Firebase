@@ -197,13 +197,13 @@ class _ListSaleScreenState extends State<ListSaleScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
+                                        /* Text(
                                           "Pieces: " +
                                               snapshot.data?[index]['pieces'],
                                           style: TextStyle(
                                               color: Color.fromARGB(
                                                   150, 230, 230, 230)),
-                                        ),
+                                        ), */
                                         Text(
                                           "Quantity: " +
                                               snapshot.data?[index]['quantity'],
