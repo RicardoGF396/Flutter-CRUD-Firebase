@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-
+import 'package:crypto/crypto.dart';
+import 'dart:convert';
 //Aqui va toda la funcionalidad de firestore
 FirebaseFirestore db = FirebaseFirestore.instance;
 
@@ -35,17 +36,28 @@ Future<List> getUsers() async {
 }
 
 //==>Añadir un Usuario
-Future<void> addUser(String age, String email, String gender, String id,
+
+
+// Función para hashear la contraseña
+String hashPassword(String password) {
+  var bytes = utf8.encode(password); // Convierte la contraseña en bytes
+  var digest = sha256.convert(bytes); // Aplica la función hash SHA-256
+  return digest.toString(); // Devuelve el hash como una cadena de texto
+}
+
+// Añadir un Usuario
+Future<void> addUser(String age, String email, String gender,
     String name, String lastname, String password) async {
-  //Enviamos como si fuera un json
+    String hashedPassword = hashPassword(password); // Hashear la contraseña
+  
+  // Enviamos como si fuera un json
   await db.collection('user').add({
     "age": name,
     "email": email,
     "gender": gender,
-    "id": id,
     "name": name,
     "lastname": lastname,
-    "password": password
+    "password": hashedPassword // Almacenar el hash en lugar de la contraseña original
   });
 }
 

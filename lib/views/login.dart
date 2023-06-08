@@ -102,6 +102,7 @@ class _LoginState extends State<Login> {
         String userName = account.displayName!;
         String profilePicture = account.photoUrl!;
         print(userName);
+        print(profilePicture);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

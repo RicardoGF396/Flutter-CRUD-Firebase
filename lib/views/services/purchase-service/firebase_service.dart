@@ -55,3 +55,11 @@ Future<void> updatePurchase(
 Future<void> deletePurchase(String uid) async {
   await db.collection('purchase').doc(uid).delete();
 }
+
+// ===> Todos Los ID
+ Future<List<String>> getPurchaseIds() async {
+    CollectionReference collectionReference = db.collection('purchase');
+    QuerySnapshot querySnapshot = await collectionReference.get();
+    List<String> ids = querySnapshot.docs.map((doc) => doc.id).toList();
+    return ids;
+  }

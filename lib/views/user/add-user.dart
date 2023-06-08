@@ -3,6 +3,7 @@ import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/user-service/user_service.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../components/DefaultDropdown.dart';
 import '../../components/defaultInput.dart';
 
 class UserFormScreen extends StatelessWidget {
@@ -10,7 +11,7 @@ class UserFormScreen extends StatelessWidget {
   TextEditingController lastnameController = TextEditingController(text: "");
   TextEditingController ageController = TextEditingController(text: "");
   TextEditingController emailController = TextEditingController(text: "");
-  TextEditingController genderController = TextEditingController(text: "");
+  TextEditingController genderController = TextEditingController(text: "M");
   TextEditingController passwordController = TextEditingController(text: "");
   TextEditingController idController = TextEditingController(text: "");
 
@@ -63,7 +64,7 @@ class UserFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: lastnameController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -77,7 +78,7 @@ class UserFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: ageController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -91,21 +92,20 @@ class UserFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: emailController),
-                      SizedBox(
+                  SizedBox(
                     height: 16,
                   ),
-                  DefaultInput(
-                      hintText: "Gender",
-                      labelText: "Gender",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Enter a correct password';
-                        }
-                        return null;
-                      },
-                      obscureText: false,
-                      controller: genderController),
-                      SizedBox(
+                  DefaultDropdown(
+                    hintText: 'Select an item',
+                    labelText: 'Gender',
+                    items: ['F', 'M', 'X'],
+                    value: genderController.text,
+                    controller: genderController,
+                    onChanged: (String? value) {
+                      genderController.text = value!;
+                    },
+                  ),
+                  SizedBox(
                     height: 16,
                   ),
                   DefaultInput(
@@ -119,7 +119,6 @@ class UserFormScreen extends StatelessWidget {
                       },
                       obscureText: false,
                       controller: passwordController),
-
                   const SizedBox(
                     height: 40,
                   ),
@@ -140,18 +139,99 @@ class UserFormScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await addUser(
+                      if ([
                         ageController.text,
                         emailController.text,
                         genderController.text,
-                        idController.text,
                         nameController.text,
                         lastnameController.text,
                         passwordController.text
-                      ).then((_) {
-                        Navigator.pop(context);
-                        Navigator.popAndPushNamed(context, '/listUser');
-                      });
+                      ].contains("")) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Color(0xFF1E1C24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                content: SizedBox(
+                                  height: 112,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/error-icon.svg'),
+                                        const SizedBox(height: 16),
+                                        const Text(
+                                          'One or more fields are empty',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                actions: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  Size(140, 50)),
+                                          textStyle: MaterialStateProperty.all<
+                                              TextStyle>(
+                                            TextStyle(fontSize: 16),
+                                          ),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(99),
+                                              side: BorderSide(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          'Okay',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            });
+                        print("Estoy aqui");
+                      } else {
+                        await addUser(
+                                ageController.text,
+                                emailController.text,
+                                genderController.text,
+                                nameController.text,
+                                lastnameController.text,
+                                passwordController.text)
+                            .then((_) {
+                          Navigator.pop(context);
+                          Navigator.popAndPushNamed(context, '/listUser');
+                        });
+                      }
                     },
                     child: const Text('Add'),
                   )

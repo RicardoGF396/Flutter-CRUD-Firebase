@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
+import 'package:flutter_svg/svg.dart';
 
 // ignore: must_be_immutable
 class EditSaleScreen extends StatelessWidget {
@@ -164,18 +165,101 @@ class EditSaleScreen extends StatelessWidget {
                       ),
                     ),
                     onPressed: () async {
-                      await updateSale(
-                              arguments['uid'],
-                              nameController.text,
-                              quantityController.text,
-                              piecesController.text,
-                              idcController.text,
-                              idvController.text,
-                              subtotalController.text,
-                              totalController.text)
-                          .then((_) {
-                        Navigator.pop(context);
-                      });
+                      if ([
+                        nameController.text,
+                        quantityController.text,
+                        piecesController.text,
+                        idcController.text,
+                        idvController.text,
+                        subtotalController.text,
+                        totalController.text
+                      ].contains("")) {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                backgroundColor: Color(0xFF1E1C24),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                content: SizedBox(
+                                  height: 112,
+                                  child: Center(
+                                    child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                            'assets/error-icon.svg'),
+                                        const SizedBox(height: 16),
+                                        const Text(
+                                          'One or more fields are empty',
+                                          style: TextStyle(color: Colors.white),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                actions: [
+                                  Align(
+                                    alignment: Alignment.bottomCenter,
+                                    child: Padding(
+                                      padding:
+                                          const EdgeInsets.only(bottom: 16),
+                                      child: TextButton(
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.white),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          minimumSize:
+                                              MaterialStateProperty.all(
+                                                  Size(140, 50)),
+                                          textStyle: MaterialStateProperty.all<
+                                              TextStyle>(
+                                            TextStyle(fontSize: 16),
+                                          ),
+                                          shape: MaterialStateProperty.all<
+                                              RoundedRectangleBorder>(
+                                            RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(99),
+                                              side: BorderSide(
+                                                  color: Colors.black),
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text(
+                                          'Okay',
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w500),
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              );
+                            });
+                        print("Estoy aqui");
+                      } else {
+                        await updateSale(
+                                arguments['uid'],
+                                nameController.text,
+                                quantityController.text,
+                                piecesController.text,
+                                idcController.text,
+                                idvController.text,
+                                subtotalController.text,
+                                totalController.text)
+                            .then((_) {
+                          Navigator.pop(context);
+                        });
+                      }
                     },
                     child: const Text('Edit Record'),
                   )

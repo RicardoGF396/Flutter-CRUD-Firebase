@@ -3,6 +3,7 @@ import 'package:flutter_firebase/components/defaultInput.dart';
 import 'package:flutter_firebase/components/headerList.dart';
 import 'package:flutter_firebase/views/services/product-service/product_service.dart';
 import 'package:flutter_firebase/views/services/sales-service/sales_service.dart';
+import 'package:flutter_svg/svg.dart';
 
 // ignore: must_be_immutable
 class FormSaleScreen extends StatefulWidget {
