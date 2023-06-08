@@ -18,6 +18,8 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.profilePicture);
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(25, 23, 32, 1),
       extendBody: true,
@@ -37,12 +39,17 @@ class _MenuScreenState extends State<MenuScreen> {
                       children: [
                         SvgPicture.asset('assets/logoFlutter.svg'),
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: Image.network(
-                            '${widget.profilePicture}',
-                            width: 40,
-                          ),
-                        )
+                            borderRadius: BorderRadius.circular(50),
+                            child: widget.profilePicture == "bruno.png"
+                                ? Image(
+                                    image: AssetImage(
+                                        "assets/${widget.profilePicture}"),
+                                    width: 40,
+                                  )
+                                : Image.network(
+                                    '${widget.profilePicture}',
+                                    width: 40,
+                                  ))
                       ],
                     ),
                     SizedBox(

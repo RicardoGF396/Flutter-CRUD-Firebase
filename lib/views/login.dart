@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
         // Aquí realizas la acción de éxito
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => MenuScreen()),
+          MaterialPageRoute(builder: (context) => MenuScreen(profilePicture: "bruno.png",)),
         );
       } else {
         showDialog(
